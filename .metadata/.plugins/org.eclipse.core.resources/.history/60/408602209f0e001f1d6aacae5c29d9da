@@ -1,0 +1,65 @@
+package com.example.materitabview;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MenghitungKataActivity extends Activity implements View.OnClickListener {
+
+    EditText teksKataET;
+    TextView jumlahKataTV;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_meghitung_kata);
+
+        teksKataET = (EditText) findViewById(R.id.teksKataEditText);
+        jumlahKataTV = (TextView) findViewById(R.id.jumlahKataTextView);
+
+        findViewById(R.id.hitungKataButton).setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_meghitung_kata, menu);
+        return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.hitungKataButton:
+                hitungKata();
+                break;
+        }
+    }
+
+    private void hitungKata() {
+        String teks = teksKataET.getText().toString();
+        boolean kata = false;
+        int jumlahKata = 0;
+
+        for (int i = 0; i < teks.length(); i++) {
+            char karakter = teks.charAt(i);
+            if (Character.isLetter(karakter)) {
+                kata = true;
+            } else {
+                if (kata) {
+                    jumlahKata++;
+                    kata = false;
+                }
+            }
+        }
+
+        // Menambahkan pengecekan kata terakhir
+        if (kata) {
+            jumlahKata++;
+        }
+
+        jumlahKataTV.setText(String.valueOf(jumlahKata));
+    }
+}
